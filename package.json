@@ -1,6 +1,6 @@
 {
   "name": "move-backend-v3",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -9,11 +9,13 @@
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
     "pretty": "prettier --write \"src/**/*.ts\"",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "release": "release-it"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
+    "@release-it/conventional-changelog": "^8.0.1",
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.10.6",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
@@ -22,12 +24,38 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
+    "release-it": "^17.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "publish": false
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
+        "preset": {
+          "name": "conventionalcommits",
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            },
+            {}
+          ]
+        }
+      }
     }
   }
 }
